@@ -5,6 +5,7 @@ import com.investmentFundsBTG.investmentFunds.domain.usecase.InvestmentFundUseCa
 import com.investmentFundsBTG.investmentFunds.infrastructure.entrypoints.DTO.InvestmentFundDTO;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,17 +19,17 @@ public class InvestmentFundController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<InvestmentFund>> allInvestmentFundsByIdUser(@RequestParam Integer id){
-        return ResponseEntity.ok().body(investmentFundUseCase.allInvestmentFundsByIdUser(id));
+    public ResponseEntity<Iterable<InvestmentFund>> allInvestmentFundsByIdUser(@RequestParam String id){
+        return ResponseEntity.ok().body(investmentFundUseCase.findByIduser(id));
     }
 
     @PostMapping
-    public ResponseEntity<InvestmentFund> createInvestmentFund(@RequestBody InvestmentFundDTO investmentFundDTO){
+    public ResponseEntity<InvestmentFund> createInvestmentFund(@Validated @RequestBody InvestmentFundDTO investmentFundDTO){
             return ResponseEntity.ok().body(investmentFundUseCase.save(investmentFundDTO));
     }
 
     @PutMapping
-    public ResponseEntity<InvestmentFund> CancelSubscription(@RequestParam Integer id){
+    public ResponseEntity<InvestmentFund> CancelSubscription(@RequestParam String id){
         return ResponseEntity.ok().body(investmentFundUseCase.cancelSubscription(id));
     }
 }

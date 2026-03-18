@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class FundEntity {
     @Id
-    private Integer id;
+    private String id;
     private String name;
     private Long minimumAmount;
     private String category;

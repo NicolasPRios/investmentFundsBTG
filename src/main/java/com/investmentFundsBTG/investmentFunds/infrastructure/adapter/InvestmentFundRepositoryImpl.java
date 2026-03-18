@@ -2,8 +2,11 @@ package com.investmentFundsBTG.investmentFunds.infrastructure.adapter;
 
 import com.investmentFundsBTG.investmentFunds.domain.model.investmentfund.InvestmentFund;
 import com.investmentFundsBTG.investmentFunds.domain.model.investmentfund.gateways.InvestmentFundRepository;
+import com.investmentFundsBTG.investmentFunds.infrastructure.entity.InvestmentFundEntity;
 import com.investmentFundsBTG.investmentFunds.infrastructure.mapper.InvestmentFundMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class InvestmentFundRepositoryImpl implements InvestmentFundRepository {
@@ -17,8 +20,10 @@ public class InvestmentFundRepositoryImpl implements InvestmentFundRepository {
     }
 
     @Override
-    public InvestmentFund byId(Integer id) {
-        return investmentFundMapper.toInvestmentFund(investmentFundMongoRepository.findById(id).get());
+    public InvestmentFund byId(String id) {
+        return investmentFundMongoRepository.findById(id)
+                .map(investmentFundMapper::toInvestmentFund)
+                .orElse(null);
     }
 
     @Override
@@ -27,7 +32,12 @@ public class InvestmentFundRepositoryImpl implements InvestmentFundRepository {
     }
 
     @Override
-    public Iterable<InvestmentFund> allInvestmentFundsByIdUser(Integer idUser) {
-        return investmentFundMapper.toInvestmentFunds(investmentFundMongoRepository.findAll());
+    public List<InvestmentFund> findByIdUser(String idUser) {
+        return investmentFundMongoRepository.findByUserId(idUser)
+                .stream()
+                .map(investmentFundMapper::toInvestmentFund)
+                .toList();
     }
+
+
 }

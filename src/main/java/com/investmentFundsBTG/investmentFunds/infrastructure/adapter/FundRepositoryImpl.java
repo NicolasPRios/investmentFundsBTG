@@ -17,8 +17,10 @@ public class FundRepositoryImpl implements FundRepository {
     }
 
     @Override
-    public Fund getById(Integer id) {
-        return fundMapper.toFund(fundMongoRepository.findById(id).get());
+    public Fund getById(String id) {
+        return fundMongoRepository.findById(id)
+                .map(fundMapper::toFund)
+                .orElse(null);
     }
 
     @Override

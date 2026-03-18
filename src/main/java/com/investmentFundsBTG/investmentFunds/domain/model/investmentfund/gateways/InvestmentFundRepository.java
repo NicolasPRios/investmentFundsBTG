@@ -2,8 +2,10 @@ package com.investmentFundsBTG.investmentFunds.domain.model.investmentfund.gatew
 
 import com.investmentFundsBTG.investmentFunds.domain.model.investmentfund.InvestmentFund;
 
+import java.util.List;
+
 public interface InvestmentFundRepository {
-    InvestmentFund byId(Integer id);
+    InvestmentFund byId(String id);
     InvestmentFund save(InvestmentFund investmentFund);
-    Iterable<InvestmentFund> allInvestmentFundsByIdUser(Integer idUser);
+    List<InvestmentFund> findByIdUser(String idUser);
 }

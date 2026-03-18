@@ -7,6 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.util.Optional;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     @Mappings({

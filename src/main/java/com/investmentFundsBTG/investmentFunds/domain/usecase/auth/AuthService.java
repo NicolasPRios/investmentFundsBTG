@@ -15,15 +15,12 @@ public class AuthService {
     private final JwtService jwtService;
 
     public String login(String email, String rawPassword) {
-        // 1. Buscar al usuario por email (o username)
         User user = userRepository.findByEmail(email);
 
-        // 2. Verificar si la contraseña coincide
         if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
             throw new RuntimeException("Credenciales inválidas");
         }
 
-        // 3. Generar el token (Aquí pasamos el email como identificador)
         return jwtService.generateToken(user);
     }
 }

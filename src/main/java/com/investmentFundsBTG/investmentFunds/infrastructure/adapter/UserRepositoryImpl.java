@@ -17,8 +17,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getById(Integer id) {
-        return userMapper.toUser(userMongoRepository.findById(id).get());
+    public User getById(String id) {
+        return userMongoRepository.findById(id)
+                .map(userMapper::toUser)
+                .orElse(null);
     }
 
     @Override

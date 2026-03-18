@@ -21,14 +21,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<ErrorResponse> handleGeneral(DuplicateKeyException ex) {
-        // Loggear el error real para el desarrollador
+
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(new ErrorResponse("CONFLICT", "Registro duplicado"));
     }
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<ErrorResponse> handleGeneral(NoSuchElementException ex) {
-        // Loggear el error real para el desarrollador
+
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .body(new ErrorResponse("NO_CONTENT", "No se encuentra el registro"));
     }

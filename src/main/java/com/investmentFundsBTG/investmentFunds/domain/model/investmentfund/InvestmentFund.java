@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 public class InvestmentFund {
 
-    private Integer id;
+    private String id;
     private Fund fund;
     private User user;
     private String state;

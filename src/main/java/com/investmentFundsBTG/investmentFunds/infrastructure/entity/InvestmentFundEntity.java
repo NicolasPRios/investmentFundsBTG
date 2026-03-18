@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class InvestmentFundEntity {
     @Id
-    private Integer id;
+    private String id;
     private Fund fund;
     private User user;
     private String state;

@@ -28,6 +28,12 @@ public class InvestmentFundUseCase {
     public InvestmentFund save(InvestmentFundDTO investmentFundDTO){
         Fund fund = fundRepository.getById(investmentFundDTO.getIdFund());
         User user = userRepository.getById(investmentFundDTO.getIdUser());
+        if (fund == null) {
+            throw new BusinessException("El fondo con ID " + investmentFundDTO.getIdFund() + " no existe.", "NOT_FOUND");
+        }
+        if (user == null) {
+            throw new BusinessException("El usuario con ID " + investmentFundDTO.getIdUser() + " no existe.", "NOT_FOUND");
+        }
         if(fund.getMinimumAmount()<user.getAvailableBalance()&&investmentFundDTO.getOpeningValue()<user.getAvailableBalance()) {
             user.setAvailableBalance(user.getAvailableBalance()-investmentFundDTO.getOpeningValue());
             InvestmentFund investmentFund = InvestmentFund.builder()
@@ -35,6 +41,8 @@ public class InvestmentFundUseCase {
                     .fund(fund)
                     .user(user)
                     .state(investmentFundDTO.getState())
+                    .messagePreference(investmentFundDTO.getMessagePreference())
+                    .openingValue(investmentFundDTO.getOpeningValue())
                     .build();
             userRepository.saveUser(user);
             sendingInformation(investmentFundDTO.getMessagePreference(), user,fund);
@@ -53,12 +61,15 @@ public class InvestmentFundUseCase {
         }
     }
 
-    public Iterable<InvestmentFund> allInvestmentFundsByIdUser(Integer idUser){
-        return investmentFundRepository.allInvestmentFundsByIdUser(idUser);
+    public Iterable<InvestmentFund> findByIduser(String idUser){
+        return investmentFundRepository.findByIdUser(idUser);
     }
 
-    public InvestmentFund cancelSubscription(Integer id) {
+    public InvestmentFund cancelSubscription(String id) {
         InvestmentFund investmentFund = investmentFundRepository.byId(id);
+        if(investmentFund == null){
+            throw new BusinessException("No se puede cancelar una suscripción de un fondo inexistente", "NOT_FOUND");
+        }
         if(investmentFund.getState().equals("Aperturado")) {
             User user = investmentFund.getUser();
             user.setAvailableBalance(user.getAvailableBalance() + investmentFund.getOpeningValue());

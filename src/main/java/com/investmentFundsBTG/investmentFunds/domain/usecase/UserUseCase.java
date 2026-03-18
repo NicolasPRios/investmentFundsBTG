@@ -16,12 +16,14 @@ public class UserUseCase {
     }
 
     public User saveUser(User user){
+        if(userRepository.findByEmail(user.getEmail())==null) {
             if (user.getAvailableBalance() >= 500000) {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
                 return userRepository.saveUser(user);
             }
             throw new BusinessException("El saldo inicial para registro, debe ser mayor o igual de COP $500.000.", "SALDO_MENOR");
-
+        }
+        throw new BusinessException("Ya existe un usuario registrado con este email", "EMAIL_REGISTRADO");
     }
 
     public User updateUser(User user){
